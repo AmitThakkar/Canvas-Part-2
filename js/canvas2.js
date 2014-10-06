@@ -3,7 +3,7 @@
  */
 (function (document, window) {
   var canvasId = "game";
-  var roadSrc = './images/road.jpg', forestSrc = "./images/forest.jpg";
+  var roadSrc = './images/road.jpg', topForestSrc = "./images/lake.jpg", bottomForestScr = './images/lake.jpg';
   var canvasWidth = 1000, canvasHeight = 260;
   var roadWidth = canvasWidth / 10, roadHeight = 100;
   var context;
@@ -21,8 +21,9 @@
     context = document.getElementById(canvasId).getContext('2d');
     context.canvas.width = canvasWidth;
     context.canvas.height = canvasHeight;
-    drawForest();
+    drawTopForest();
     drawRoad();
+    drawBottomForest();
   }
 
   function drawRoad() {
@@ -38,7 +39,7 @@
     road.src = roadSrc;
   }
 
-  function drawForest() {
+  function drawTopForest() {
     var forestX = 0, forestY = 0, forestIndex = 0;
     var forest = new Image();
     forest.onload = function () {
@@ -48,7 +49,20 @@
         forestIndex++;
       }
     };
-    forest.src = forestSrc;
+    forest.src = topForestSrc;
+  }
+
+  function drawBottomForest() {
+    var forestX = 0, forestY = roadHeight + ((canvasHeight - roadHeight) / 2), forestIndex = 0;
+    var forest = new Image();
+    forest.onload = function () {
+      while (forestIndex < 10) {
+        context.drawImage(forest, forestX, forestY, roadHeight, roadWidth);
+        forestX = forestX + roadWidth;
+        forestIndex++;
+      }
+    };
+    forest.src = bottomForestScr;
   }
 
   window.onload = draw;
