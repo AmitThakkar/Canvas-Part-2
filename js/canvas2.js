@@ -4,63 +4,75 @@
 (function (document, window) {
   var canvasId = "game";
   var roadSrc = './images/road.jpg', topForestSrc = "./images/lake.jpg", bottomForestScr = './images/lake.jpg',
-      carSrc = './images/car.jpg';
-  var canvasWidth = 1000, canvasHeight = 260;
-  var roadWidth = canvasWidth / 10, roadHeight = 100;
+    carSrc = './images/car.jpg';
+  var canvasWidth = 1000, canvasHeight = 350, blockCount = 10;
+  var actualImageWidth = 225, actualImageHeight = 225, moveWidth = 25, maxMove = actualImageWidth / moveWidth;
+  var blockWidth = canvasWidth / blockCount, blockHeight = canvasHeight / 3.5;
   var context;
 
   function draw() {
     var canvas = document.getElementById(canvasId);
     if (canvas.getContext) {
-      drawGame();
+      context = canvas.getContext('2d');
+      context.canvas.width = canvasWidth;
+      context.canvas.height = canvasHeight;
+      var moveCount = 0;
+      drawGame(moveCount++);
+      setInterval(function () {
+        drawGame(moveCount++);
+        if(moveCount > maxMove) {
+          moveCount = 0;
+        }
+      }, 1000);
     } else {
       // Canvas unsupported code will go here.
     }
   }
 
-  function drawGame() {
-    context = document.getElementById(canvasId).getContext('2d');
-    context.canvas.width = canvasWidth;
-    context.canvas.height = canvasHeight;
-    drawTopForest();
-    drawRoad();
-    drawBottomForest();
-    drawCar();
+  function drawGame(move) {
+    drawTopForest(move);
+    drawRoad(move);
+    drawBottomForest(move);
+//    drawCar();
   }
 
-  function drawRoad() {
-    var roadX = 0, roadY = (canvasHeight - roadHeight) / 2, roadIndex = 0;
+  function drawRoad(move) {
+    var roadX = 0, roadY = blockHeight, roadIndex = 0;
     var road = new Image();
     road.onload = function () {
-      while (roadIndex < 10) {
-        context.drawImage(road, roadX, roadY, roadHeight, roadWidth);
-        roadX = roadX + roadWidth;
+      while (roadIndex < blockCount + 1) {
+        if (false && roadIndex == 0 && move != 0) {
+          context.drawImage(road, moveWidth * move, 0, actualImageWidth, actualImageHeight, roadX, roadY, blockWidth, blockHeight * 1.5);
+        } else {
+          context.drawImage(road, roadX - (moveWidth * move), roadY, blockWidth, blockHeight * 1.5);
+        }
+        roadX = roadX + blockWidth;
         roadIndex++;
       }
     };
     road.src = roadSrc;
   }
 
-  function drawTopForest() {
+  function drawTopForest(move) {
     var forestX = 0, forestY = 0, forestIndex = 0;
     var forest = new Image();
     forest.onload = function () {
-      while (forestIndex < 10) {
-        context.drawImage(forest, forestX, forestY, roadHeight, roadWidth);
-        forestX = forestX + roadWidth;
+      while (forestIndex < blockCount + 1) {
+        context.drawImage(forest, forestX, forestY, blockWidth, blockHeight);
+        forestX = forestX + blockWidth;
         forestIndex++;
       }
     };
     forest.src = topForestSrc;
   }
 
-  function drawBottomForest() {
-    var forestX = 0, forestY = roadHeight + ((canvasHeight - roadHeight) / 2), forestIndex = 0;
+  function drawBottomForest(move) {
+    var forestX = 0, forestY = blockHeight * 2.5, forestIndex = 0;
     var forest = new Image();
     forest.onload = function () {
-      while (forestIndex < 10) {
-        context.drawImage(forest, forestX, forestY, roadHeight, roadWidth);
-        forestX = forestX + roadWidth;
+      while (forestIndex < blockCount + 1) {
+        context.drawImage(forest, forestX, forestY, blockWidth, blockHeight);
+        forestX = forestX + blockWidth;
         forestIndex++;
       }
     };
@@ -68,10 +80,10 @@
   }
 
   function drawCar() {
-    var carX = 20, carY = ((canvasHeight - roadHeight) / 2) + (roadHeight / 3);
+    var carX = 20, carY = ((canvasHeight - blockHeight) / 2) + (blockHeight / 3);
     var car = new Image();
     car.onload = function () {
-      context.drawImage(car, carX, carY, 50, 20);
+      context.drawImage(car, carX, carY, 40, 30);
     };
     car.src = carSrc;
   }
