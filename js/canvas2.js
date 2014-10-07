@@ -45,7 +45,7 @@
       context.clearRect(roadX, roadY, canvasWidth, blockHeight * 1.5);
       while (roadIndex < blockCount + 1) {
         if (roadIndex == 0 && move != 0) {
-          context.drawImage(road, moveWidth * move, 0, actualImageWidth, actualImageHeight, roadX, roadY, blockWidth, blockHeight * 1.5);
+          context.drawImage(road, move * actualImageWidth / maxMove, 0, actualImageWidth, actualImageHeight, roadX, roadY, blockWidth, blockHeight * 1.5);
         } else {
           context.drawImage(road, roadX - (moveWidth * move), roadY, blockWidth, blockHeight * 1.5);
         }
@@ -63,7 +63,7 @@
       context.clearRect(forestX, forestY, canvasWidth, blockHeight);
       while (forestIndex < blockCount + 1) {
         if (forestIndex == 0 && move != 0) {
-          context.drawImage(forest, moveWidth * move, 0, actualImageWidth, actualImageHeight, forestX, forestY, blockWidth, blockHeight);
+          context.drawImage(forest, move * actualImageWidth / maxMove, 0, actualImageWidth, actualImageHeight, forestX, forestY, blockWidth, blockHeight);
         } else {
           context.drawImage(forest, forestX - (moveWidth * move), forestY, blockWidth, blockHeight);
         }
@@ -81,7 +81,7 @@
       context.clearRect(forestX, forestY, canvasWidth, blockHeight);
       while (forestIndex < blockCount + 1) {
         if (forestIndex == 0 && move != 0) {
-          context.drawImage(forest, moveWidth * move, 0, actualImageWidth, actualImageHeight, forestX, forestY, blockWidth, blockHeight);
+          context.drawImage(forest, move * actualImageWidth / maxMove, 0, actualImageWidth, actualImageHeight, forestX, forestY, blockWidth, blockHeight);
         } else {
           context.drawImage(forest, forestX - (moveWidth * move), forestY, blockWidth, blockHeight);
         }
