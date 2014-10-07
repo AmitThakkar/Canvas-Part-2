@@ -6,7 +6,7 @@
   var roadSrc = './images/road.jpg', topForestSrc = "./images/lake.jpg", bottomForestScr = './images/lake.jpg',
     carSrc = './images/red-car.svg';
   var canvasWidth = 1000, canvasHeight = 350, blockCount = 10;
-  var actualImageWidth = 225, actualImageHeight = 225, moveWidth = 25;
+  var actualImageWidth = 225, actualImageHeight = 225, moveWidth = 5;
   var blockWidth = canvasWidth / blockCount, blockHeight = canvasHeight / 3.5, maxMove = blockWidth / moveWidth;
   var context;
 
@@ -18,12 +18,14 @@
       context.canvas.height = canvasHeight;
       var moveCount = 0;
       drawGame(moveCount++);
-      setInterval(function () {
-        drawGame(moveCount++);
-        if(moveCount >= maxMove) {
-          moveCount = 0;
+      window.addEventListener("keydown", function(event) {
+        if(event.keyCode == 39) {
+          drawGame(moveCount++);
+          if(moveCount >= maxMove) {
+            moveCount = 0;
+          }
         }
-      }, 1000);
+      }, true);
     } else {
       // Canvas unsupported code will go here.
     }
