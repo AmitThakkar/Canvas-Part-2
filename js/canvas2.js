@@ -9,6 +9,16 @@
   var actualImageWidth = 225, actualImageHeight = 225, moveWidth = 5;
   var blockWidth = canvasWidth / blockCount, blockHeight = canvasHeight / 3.5, maxMove = blockWidth / moveWidth;
   var context;
+  var carWidth = 100, carHeight = 50, carX = 20, carY = ((canvasHeight - blockHeight) / 2) + carHeight / 2;
+  var KEY_CODE = {
+    RIGHT: 39,
+    UP: 38,
+    DOWN: 40
+  };
+  var CAR_MOVE = {
+    UP:"UP",
+    DOWN:"DOWN"
+  };
 
   function draw() {
     var canvas = document.getElementById(canvasId);
@@ -17,25 +27,36 @@
       context.canvas.width = canvasWidth;
       context.canvas.height = canvasHeight;
       var moveCount = 0;
-      drawGame(moveCount++);
-      window.addEventListener("keydown", function(event) {
-        if(event.keyCode == 39) {
-          drawGame(moveCount++);
-          if(moveCount >= maxMove) {
-            moveCount = 0;
-          }
+      drawBackground(moveCount++);
+      drawCar();
+      window.addEventListener("keydown", keyDownHandler, true);
+      function keyDownHandler(event) {
+        console.log(event.keyCode, KEY_CODE)
+        switch (event.keyCode) {
+          case KEY_CODE.RIGHT:
+            drawBackground(moveCount++);
+            break;
+          case KEY_CODE.UP:
+            drawBackground(moveCount++, CAR_MOVE.UP);
+            break;
+          case KEY_CODE.DOWN:
+            drawBackground(moveCount++, CAR_MOVE.DOWN);
+            break;
         }
-      }, true);
+        if (moveCount >= maxMove) {
+          moveCount = 0;
+        }
+      }
     } else {
       // Canvas unsupported code will go here.
     }
   }
 
-  function drawGame(move) {
+  function drawBackground(move, side) {
     drawTopForest(move);
     drawRoad(move);
     drawBottomForest(move);
-    drawCar();
+    drawCar(side);
   }
 
   function drawRoad(move) {
@@ -92,10 +113,14 @@
     forest.src = bottomForestScr;
   }
 
-  function drawCar() {
-    var carWidth = 100, carHeight = 50, carX = 20, carY = ((canvasHeight - blockHeight) / 2) + carHeight / 2;
+  function drawCar(side) {
     var car = new Image();
     car.onload = function () {
+      if(side === CAR_MOVE.UP) {
+        carY -= 2;
+      } else if(side === CAR_MOVE.DOWN) {
+        carY += 2;
+      }
       context.drawImage(car, carX, carY, carWidth, carHeight);
     };
     car.src = carSrc;
