@@ -4,7 +4,7 @@
 (function (document, window) {
   var canvasId = "game";
   var roadSrc = './images/road.jpg', topForestSrc = "./images/lake.jpg", bottomForestScr = './images/lake.jpg',
-    carSrc = './images/red-car.svg';
+    carSrc = './images/red-car2.png';
   var canvasWidth = 1000, canvasHeight = 350, blockCount = 10;
   var actualImageWidth = 225, actualImageHeight = 225, moveWidth = 5;
   var blockWidth = canvasWidth / blockCount, blockHeight = canvasHeight / 3.5, maxMove = blockWidth / moveWidth;
@@ -93,10 +93,10 @@
   }
 
   function drawCar() {
-    var carX = 20, carY = ((canvasHeight - blockHeight) / 2);
+    var carWidth = 130, carHeight = 90, carX = 20, carY = ((canvasHeight - blockHeight) / 2) - (carHeight / 5);
     var car = new Image();
     car.onload = function () {
-      context.drawImage(car, carX, carY, 80, 70);
+      context.drawImage(car, carX, carY, 90, 90);
     };
     car.src = carSrc;
   }
