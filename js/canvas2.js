@@ -6,8 +6,8 @@
   var roadSrc = './images/road.jpg', topForestSrc = "./images/lake.jpg", bottomForestScr = './images/lake.jpg',
     carSrc = './images/car.jpg';
   var canvasWidth = 1000, canvasHeight = 350, blockCount = 10;
-  var actualImageWidth = 225, actualImageHeight = 225, moveWidth = 25, maxMove = actualImageWidth / moveWidth;
-  var blockWidth = canvasWidth / blockCount, blockHeight = canvasHeight / 3.5;
+  var actualImageWidth = 225, actualImageHeight = 225, moveWidth = 25;
+  var blockWidth = canvasWidth / blockCount, blockHeight = canvasHeight / 3.5, maxMove = blockWidth / moveWidth;
   var context;
 
   function draw() {
@@ -20,7 +20,7 @@
       drawGame(moveCount++);
       setInterval(function () {
         drawGame(moveCount++);
-        if(moveCount > maxMove) {
+        if(moveCount >= maxMove) {
           moveCount = 0;
         }
       }, 1000);
@@ -40,8 +40,9 @@
     var roadX = 0, roadY = blockHeight, roadIndex = 0;
     var road = new Image();
     road.onload = function () {
+      context.clearRect(roadX, roadY, canvasWidth, blockHeight * 1.5);
       while (roadIndex < blockCount + 1) {
-        if (false && roadIndex == 0 && move != 0) {
+        if (roadIndex == 0 && move != 0) {
           context.drawImage(road, moveWidth * move, 0, actualImageWidth, actualImageHeight, roadX, roadY, blockWidth, blockHeight * 1.5);
         } else {
           context.drawImage(road, roadX - (moveWidth * move), roadY, blockWidth, blockHeight * 1.5);
@@ -57,8 +58,13 @@
     var forestX = 0, forestY = 0, forestIndex = 0;
     var forest = new Image();
     forest.onload = function () {
+      context.clearRect(forestX, forestY, canvasWidth, blockHeight);
       while (forestIndex < blockCount + 1) {
-        context.drawImage(forest, forestX, forestY, blockWidth, blockHeight);
+        if (forestIndex == 0 && move != 0) {
+          context.drawImage(forest, moveWidth * move, 0, actualImageWidth, actualImageHeight, forestX, forestY, blockWidth, blockHeight);
+        } else {
+          context.drawImage(forest, forestX - (moveWidth * move), forestY, blockWidth, blockHeight);
+        }
         forestX = forestX + blockWidth;
         forestIndex++;
       }
@@ -70,8 +76,13 @@
     var forestX = 0, forestY = blockHeight * 2.5, forestIndex = 0;
     var forest = new Image();
     forest.onload = function () {
+      context.clearRect(forestX, forestY, canvasWidth, blockHeight);
       while (forestIndex < blockCount + 1) {
-        context.drawImage(forest, forestX, forestY, blockWidth, blockHeight);
+        if (forestIndex == 0 && move != 0) {
+          context.drawImage(forest, moveWidth * move, 0, actualImageWidth, actualImageHeight, forestX, forestY, blockWidth, blockHeight);
+        } else {
+          context.drawImage(forest, forestX - (moveWidth * move), forestY, blockWidth, blockHeight);
+        }
         forestX = forestX + blockWidth;
         forestIndex++;
       }
