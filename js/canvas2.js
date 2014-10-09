@@ -9,15 +9,17 @@
   var actualImageWidth = 225, actualImageHeight = 225, moveWidth = 5;
   var blockWidth = canvasWidth / blockCount, blockHeight = canvasHeight / 3.5, maxMove = blockWidth / moveWidth;
   var context;
-  var carWidth = 100, carHeight = 50, carX = 20, carY = ((canvasHeight - blockHeight) / 2) + carHeight / 2;
+  var carWidth = 100, carHeight = 50, carX = 20, actualCarY = ((canvasHeight - blockHeight) / 2) + carHeight / 2, carY = actualCarY;
+  var roadHeight = blockHeight * 1.5;
+  var carCurrentMove = 0, carMove = 2, carMaxMove = (roadHeight - (roadHeight / 2) + (carHeight / 2)) / 2;
   var KEY_CODE = {
     RIGHT: 39,
     UP: 38,
     DOWN: 40
   };
   var CAR_MOVE = {
-    UP:"UP",
-    DOWN:"DOWN"
+    UP: "UP",
+    DOWN: "DOWN"
   };
 
   function draw() {
@@ -31,7 +33,6 @@
       drawCar();
       window.addEventListener("keydown", keyDownHandler, true);
       function keyDownHandler(event) {
-        console.log(event.keyCode, KEY_CODE)
         switch (event.keyCode) {
           case KEY_CODE.RIGHT:
             drawBackground(moveCount++);
@@ -116,10 +117,16 @@
   function drawCar(side) {
     var car = new Image();
     car.onload = function () {
-      if(side === CAR_MOVE.UP) {
-        carY -= 2;
-      } else if(side === CAR_MOVE.DOWN) {
-        carY += 2;
+      if (side === CAR_MOVE.UP) {
+        if (carCurrentMove >= -carMaxMove) {
+          carY -= carMove;
+          carCurrentMove -= carMove;
+        }
+      } else if (side === CAR_MOVE.DOWN) {
+        if (carCurrentMove <= carMaxMove) {
+          carY += carMove;
+          carCurrentMove += carMove;
+        }
       }
       context.drawImage(car, carX, carY, carWidth, carHeight);
     };
