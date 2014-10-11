@@ -1,4 +1,19 @@
+body{
+    background-image: url('../images/background.png');
+    background-size: cover;
+}
 canvas {
-    border: 1px solid black;
-    margin-left: 15px;
+    width: 800px;
+    height:300px;
+}
+#container{
+    border : 15px solid #569517;
+    border-radius: 25px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 800px;
+    height: 300px;
+    margin-left: -400px;
+    margin-top: -150px;
 }
